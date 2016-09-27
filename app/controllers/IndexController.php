@@ -9,6 +9,4 @@ class IndexController extends ControllerBase
     {
         return '<h1>Hello!</h1>';
     }
-
 }
-
