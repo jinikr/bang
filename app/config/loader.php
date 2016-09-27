@@ -10,4 +10,13 @@ $loader->registerDirs(
         $config->application->controllersDir,
         $config->application->modelsDir
     ]
-)->register();
+);
+
+$loader->registerNamespaces(
+    [
+       "App\\Controllers" => APP_PATH."/controllers",
+       "App\\Models" => APP_PATH."/models",
+    ]
+);
+
+$loader->register();

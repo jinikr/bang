@@ -28,6 +28,13 @@ $di->setShared('url', function () {
 });
 
 /**
+ * Setting up the Router
+ */
+$di->setShared('router', function () {
+    return include APP_PATH. "/config/router.php"; // require __DIR__ . '/routes.php';
+});
+
+/**
  * Setting up the view component
  */
 $di->setShared('view', function () {
