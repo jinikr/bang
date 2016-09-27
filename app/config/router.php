@@ -12,10 +12,21 @@ $router = new Phalcon\Mvc\Router(false);
  */
 
 // root -> IndexController
-$router->add('/', array(
-   'namespace' => 'App\Controllers',
-   'controller' => 'index',
-   "action"     => 'index'
-));
+$router->add('/', 
+    [
+       'namespace' => 'App\Controllers',
+       'controller' => 'index',
+        "action"     => 'index'
+    ]
+);
+
+$router->addGet(
+    '/properties', 
+    [
+       'namespace' => 'App\Controllers',
+       'controller' => 'property',
+        "action"     => 'getProperties'
+    ]
+);
 
 return $router;

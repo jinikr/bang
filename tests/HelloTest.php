@@ -2,7 +2,8 @@
 namespace Test;
 
 use App\Controllers\IndexController;
-use App\Models\Test as ModelTest;
+use App\Models\Property;
+// use App\Models\Test as ModelTest;
 
 /**
  * Class UnitTest
@@ -16,6 +17,16 @@ class HelloTest extends \UnitTestCase
             '<h1>Hello!</h1>',
             $controller->indexAction(),
             'hello! test'
+        );
+    }
+
+    public function testPropertyModel()
+    {
+        $property = new Property();
+        $this->assertCount(
+            2,
+            $property->selectAllProperties(),
+            'property test'
         );
     }
 
