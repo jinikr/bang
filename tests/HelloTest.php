@@ -20,16 +20,6 @@ class HelloTest extends \UnitTestCase
         );
     }
 
-    public function testPropertyModel()
-    {
-        $property = new Property();
-        $this->assertCount(
-            2,
-            $property->selectAllProperties(),
-            'property test'
-        );
-    }
-
     // public function testTestAction()
     // {
     //     $controller = new IndexController();
