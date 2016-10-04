@@ -41,7 +41,7 @@ class HelloTest extends \UnitTestCase
     //     $this->assertCount(
     //         2,
     //         $model->selectAll(),
-    //         'model! test' 
+    //         'model! test'
     //     );
     // }
 }
