@@ -24,23 +24,23 @@ $router->add(
     ]
 );
 
-// This route only will be matched if the HTTP method is GET // Roomtype
+// This route only will be matched if the HTTP method is GET // Roomtype List
 $router->addGet(
     "/properties/{property_id}/roomtypes",
     [
       "namespace" => "App\Controllers",
       "controller" => "roomtype",
-      "action"     =>  "byroomtypes"
+      "action"     =>  "getListByPropertyId"
     ]
 );
 
-// This route only will be matched if the HTTP method is GET // Roomtype
+// This route only will be matched if the HTTP method is GET // Roomtype Add
 $router->addPost(
     "/properties/{property_id}/roomtypes",
     [
       "namespace" => "App\Controllers",
       "controller" => "roomtype",
-      "action"     =>  "addroomtype"
+      "action"     =>  "add"
     ]
 );
 

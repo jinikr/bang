@@ -11,10 +11,12 @@ class Roomtype extends \Phalcon\Mvc\Model
      * @param string search(type value)
      * @return sql result
      */
-    public function selectProperty($type, $search)
+    public function selectProperty($search)
     {
-        $sql = "SELECT * FROM property where ".$type." = '".$search."'";
-        return $this->getDI()->get('db')->fetchAll($sql);
+        $sql = "SELECT * FROM property where id = ? ";
+
+        $result = $this->getDI()->get('db')->query($sql, [ 0 => $search]);
+        return $result->fetchAll();
     }
 
     /**
@@ -27,13 +29,16 @@ class Roomtype extends \Phalcon\Mvc\Model
     public function selectRoomtypesByProperty($property_id, $search = null)
     {
         $sql = "SELECT p.name as property_name, r.name as room_name FROM property p "
-            ." inner join roomtype r on p.id = r.property_id where p.id = '".$property_id."'";
+            ." inner join roomtype r on p.id = r.property_id where p.id = ? ";
 
         if ($search) {
-            $sql = $sql." and r.name = '".$search."'";
+            $sql = $sql." and r.name = ? ";
+            $result = $this->getDI()->get('db')->query($sql, [ 0 => $property_id, 1 => $search ]);
+            return $result->fetchAll();
         }
 
-        return $this->getDI()->get('db')->fetchAll($sql);
+        $result = $this->getDI()->get('db')->query($sql, [ 0 => $property_id ]);
+        return $result->fetchAll();
     }
 
     /**
@@ -45,9 +50,9 @@ class Roomtype extends \Phalcon\Mvc\Model
      */
     public function insertRoomtypeByProperty($property_id, $roomtype)
     {
-        $sql = "INSERT INTO roomtype (property_id, name) values ('".$property_id."', '".$roomtype."')";
+        $sql = "INSERT INTO roomtype (property_id, name) values (:property_id, :name)";
         try {
-            return $this->getDI()->get('db')->execute($sql);
+            return $this->getDI()->get('db')->query($sql, ["property_id" => $property_id, "name" => $roomtype]);
         } catch (\Exception $e) {
             echo "Exception: ".$e->getMessage();
         }

@@ -7,17 +7,27 @@ use App\Models\Roomtype;
 class RoomtypeController extends ControllerBase
 {
     /**
-     * Method index
+     * Controller Method Test에 활용 / $_roomtype / setRoomTypeModel / getRoomTypeModel
      */
-    public function indexAction()
+    private $_roomtype;
+
+    private function setRoomTypeModel(Roomtype $roomtype)
     {
-        // Todo
+        $this->_roomtype = $roomtype;
+    }
+
+    private function getRoomTypeModel()
+    {
+        if (!$this->_roomtype) {
+            $this->_roomtype = new Roomtype();
+        }
+        return $this->_roomtype;
     }
 
     /**
      * Method to get the value of roomtypes
      */
-    public function byroomtypesAction()
+    public function getListByPropertyIdAction()
     {
         $propertyId = $this->dispatcher->getParam("property_id");
         if (!$propertyId) {
@@ -29,15 +39,16 @@ class RoomtypeController extends ControllerBase
             );
         }
 
-        $roomtypes = new Roomtype();
-        return $this->response->setJsonContent($roomtypes->selectRoomtypesByProperty($propertyId, null));
+        return $this->response->setJsonContent(
+            $this->getRoomTypeModel()->selectRoomtypesByProperty($propertyId)
+        );
     }
 
     /**
      * Method to get the value of roomtypes
      * [1] Prmam Check -> [2] Property Check -> [3] Roomtype Duplicate Check -> [4] Roomtype Insert
      */
-    public function addroomtypeAction()
+    public function addAction()
     {
         // Prmam Check
         $propertyId = $this->dispatcher->getParam("property_id");
@@ -51,6 +62,15 @@ class RoomtypeController extends ControllerBase
         }
 
         $jsonRow = $this->request->getJsonRawBody();
+        if ( !isset($jsonRow->roomtype) ) {
+            return $this->response->setJsonContent(
+                [
+                    "status" => "Error",
+                    "message" => "Json parameter was not 'roomtype' key"
+                ]
+            );
+        }
+
         $roomtype = $jsonRow->roomtype;
         if (!$roomtype) {
             return $this->response->setJsonContent(
@@ -61,9 +81,8 @@ class RoomtypeController extends ControllerBase
             );
         }
 
-        $roomtypes = new Roomtype();
         // Property Check
-        $getRoomtype = $roomtypes->selectProperty("id", $propertyId);
+        $getRoomtype = $this->getRoomTypeModel()->selectProperty($propertyId);
         if (count($getRoomtype) == 0) {
             return $this->response->setJsonContent(
                 [
@@ -74,7 +93,7 @@ class RoomtypeController extends ControllerBase
         }
 
         // Roomtype Duplicate Check
-        $getRoomtype = $roomtypes->selectRoomtypesByProperty($propertyId, $roomtype);
+        $getRoomtype = $this->getRoomTypeModel()->selectRoomtypesByProperty($propertyId, $roomtype);
         if (count($getRoomtype) > 0) {
             return $this->response->setJsonContent(
                 [
@@ -85,13 +104,13 @@ class RoomtypeController extends ControllerBase
         }
 
         // Roomtype Insert
-        $result = $roomtypes->insertRoomtypeByProperty($propertyId, $roomtype);
+        $result = $this->getRoomTypeModel()->insertRoomtypeByProperty($propertyId, $roomtype);
 
         if (!$result) {
             foreach ($result->getMessages() as $message) {
                 return $this->response->setJsonContent(
                     [
-                        "status" => "OK",
+                        "status" => "Insert Error",
                         "message" => $message->getMessage()
                     ]
                 );
