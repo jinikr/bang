@@ -296,44 +296,44 @@ class RoomtypeTest extends \UnitTestCase
         );
     }
 
-    public function testAddRoomtypeInsertFalse()
-    {
-        // Dispatcher Setting
-        $stub = $this->getMockBuilder("\\Phalcon\\Mvc\\Dispatcher")
-                     ->setMethods(["getParam"])
-                     ->getMock();
-        $stub->method('getParam')
-             ->willReturn(1);
-        $this->di->set('dispatcher', $stub, True);
+    // public function testAddRoomtypeInsertFalse()
+    // {
+    //     // Dispatcher Setting
+    //     $stub = $this->getMockBuilder("\\Phalcon\\Mvc\\Dispatcher")
+    //                  ->setMethods(["getParam"])
+    //                  ->getMock();
+    //     $stub->method('getParam')
+    //          ->willReturn(1);
+    //     $this->di->set('dispatcher', $stub, True);
 
-        // Request Json Setting
-        $reqjson = '{"roomtype":"입력가능한방"}';
-        $jsonRow = json_decode($reqjson);
+    //     // Request Json Setting
+    //     $reqjson = '{"roomtype":"입력가능한방"}';
+    //     $jsonRow = json_decode($reqjson);
 
-        $stubjson = $this->getMockBuilder("\\Phalcon\\Mvc\\Request")
-                     ->setMethods(["getJsonRawBody"])
-                     ->getMock();
-        $stubjson->method('getJsonRawBody')
-             ->willReturn($jsonRow);
-        $this->di->set('request', $stubjson, True);
+    //     $stubjson = $this->getMockBuilder("\\Phalcon\\Mvc\\Request")
+    //                  ->setMethods(["getJsonRawBody"])
+    //                  ->getMock();
+    //     $stubjson->method('getJsonRawBody')
+    //          ->willReturn($jsonRow);
+    //     $this->di->set('request', $stubjson, True);
 
-        $controller = new ControllerTest();
+    //     $controller = new ControllerTest();
 
-        $stubModel = $this->getMockBuilder("\\App\\Models\\Roomtype")
-                          ->setMethods(["insertRoomtypeByProperty"])
-                          ->getMock();
+    //     $stubModel = $this->getMockBuilder("\\App\\Models\\Roomtype")
+    //                       ->setMethods(["insertRoomtypeByProperty"])
+    //                       ->getMock();
 
-        $stubModel->method('insertRoomtypeByProperty')
-                  ->willThrowException(new \Exception("Roomtype Model Exception"));
+    //     $stubModel->method('insertRoomtypeByProperty')
+    //               ->willThrowException(new \Exception("Roomtype Model Exception"));
 
-        // controller에 Test를 위한 Roomtype 모델에 Injection 적용
-        $reflector = new \ReflectionObject($controller);
-        $method    = $reflector->getMethod('setRoomTypeModel');
-        $method->setAccessible(true);
-        $method->invoke($controller, $stubModel);
+    //     // controller에 Test를 위한 Roomtype 모델에 Injection 적용
+    //     $reflector = new \ReflectionObject($controller);
+    //     $method    = $reflector->getMethod('setRoomTypeModel');
+    //     $method->setAccessible(true);
+    //     $method->invoke($controller, $stubModel);
 
-        $result     = $controller->addAction(); // Exception 처리
-    }
+    //     $result     = $controller->addAction(); // Exception 처리
+    // }
 
     /**
      * Model Test
