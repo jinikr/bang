@@ -9,19 +9,19 @@ class RoomtypeController extends ControllerBase
     /**
      * Controller Method Test에 활용 / $_roomtype / setRoomTypeModel / getRoomTypeModel
      */
-    private $_roomtype;
+    private $m_roomtype;
 
     private function setRoomTypeModel(Roomtype $roomtype)
     {
-        $this->_roomtype = $roomtype;
+        $this->m_roomtype = $roomtype;
     }
 
     private function getRoomTypeModel()
     {
-        if (!$this->_roomtype) {
-            $this->_roomtype = new Roomtype();
+        if (!$this->m_roomtype) {
+            $this->m_roomtype = new Roomtype();
         }
-        return $this->_roomtype;
+        return $this->m_roomtype;
     }
 
     /**
@@ -62,7 +62,7 @@ class RoomtypeController extends ControllerBase
         }
 
         $jsonRow = $this->request->getJsonRawBody();
-        if ( !isset($jsonRow->roomtype) ) {
+        if (!isset($jsonRow->roomtype)) {
             return $this->response->setJsonContent(
                 [
                     "status" => "Error",
