@@ -26,7 +26,7 @@ $router->addGet(
     [
        'namespace' => 'App\Controllers',
        'controller' => 'property',
-        "action"     => 'getProperties'
+        "action"     => 'getAll'
     ]
 );
 
@@ -35,7 +35,7 @@ $router->addPost(
     [
        'namespace' => 'App\Controllers',
        'controller' => 'property',
-        "action"     => 'postProperties'
+        "action"     => 'insert'
     ]
 );
 

@@ -7,15 +7,21 @@ class Property extends Model
 {
     public function selectAllProperties()
     {
-        $sql = "SELECT * FROM property";
+        $pdo = $this->getDI()->get('db');
 
-        return $this->getDI()->get('db')->fetchAll($sql);
+        $sql = "SELECT * FROM property";
+        $query = $pdo->query($sql);
+
+        return $query->fetchAll(\PDO::FETCH_ASSOC);
     }
 
-    public function insertProperty($property)
+    public function insertProperty($propertyName)
     {
-        $sql = "INSERT INTO property (name) VALUES ('$property->name')";
+        $pdo = $this->getDI()->get('db');
 
-        return $this->getDI()->get('db')->execute($sql);
+        $sql = $pdo->prepare("INSERT INTO property (name) VALUES (:propertyName)");
+        $sql->bindParam(':propertyName', $propertyName);
+
+        return $sql->execute();
     }
 }
