@@ -36,3 +36,7 @@ docker exec php-travis /bin/sh -c "cd /var/www; phpunit"
 ```sh
 docker exec -it php-travis bash
 ```
+
+
+
+
